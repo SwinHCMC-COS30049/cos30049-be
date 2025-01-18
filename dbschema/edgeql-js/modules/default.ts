@@ -7,16 +7,16 @@ export type $WalletType = {
   "EOA": $.$expr_Literal<$WalletType>;
   "Contract": $.$expr_Literal<$WalletType>;
 } & $.EnumType<"default::WalletType", ["EOA", "Contract"]>;
-const WalletType: $WalletType = $.makeType<$WalletType>(_.spec, "9cb4911e-c9f8-11ef-a64a-cd1b536c0308", _.syntax.literal);
+const WalletType: $WalletType = $.makeType<$WalletType>(_.spec, "1e6bb29c-d4d4-11ef-909f-939064476017", _.syntax.literal);
 
 export type $CurrencyλShape = $.typeutil.flatten<_std.$Object_8ce8c71ee4fa5f73840c22d7eaa58588λShape & {
   "iconImg": $.PropertyDesc<_std.$str, $.Cardinality.One, false, false, false, false>;
   "name": $.PropertyDesc<_std.$str, $.Cardinality.One, true, false, false, false>;
   "symbol": $.PropertyDesc<_std.$str, $.Cardinality.One, true, false, false, false>;
   "exchangeRates": $.LinkDesc<$ExchangeRate, $.Cardinality.Many, {}, false, true,  false, false>;
+  "<currency[is Wallet]": $.LinkDesc<$Wallet, $.Cardinality.Many, {}, false, false,  false, false>;
   "<baseCurrency[is ExchangeRate]": $.LinkDesc<$ExchangeRate, $.Cardinality.Many, {}, false, false,  false, false>;
   "<destinationCurrency[is ExchangeRate]": $.LinkDesc<$ExchangeRate, $.Cardinality.Many, {}, false, false,  false, false>;
-  "<currency[is Wallet]": $.LinkDesc<$Wallet, $.Cardinality.Many, {}, false, false,  false, false>;
   "<baseCurrency": $.LinkDesc<$.ObjectType, $.Cardinality.Many, {}, false, false,  false, false>;
   "<currency": $.LinkDesc<$.ObjectType, $.Cardinality.Many, {}, false, false,  false, false>;
   "<destinationCurrency": $.LinkDesc<$.ObjectType, $.Cardinality.Many, {}, false, false,  false, false>;
@@ -26,7 +26,7 @@ type $Currency = $.ObjectType<"default::Currency", $CurrencyλShape, null, [
   {symbol: {__element__: _std.$str, __cardinality__: $.Cardinality.One | $.Cardinality.AtMostOne },},
   {name: {__element__: _std.$str, __cardinality__: $.Cardinality.One | $.Cardinality.AtMostOne },},
 ]>;
-const $Currency = $.makeType<$Currency>(_.spec, "9cb0eed8-c9f8-11ef-8912-599a664486c8", _.syntax.literal);
+const $Currency = $.makeType<$Currency>(_.spec, "1e6685c2-d4d4-11ef-a8e8-cbe12b6630a4", _.syntax.literal);
 
 const Currency: $.$expr_PathNode<$.TypeSet<$Currency, $.Cardinality.Many>, null> = _.syntax.$PathNode($.$toSet($Currency, $.Cardinality.Many), null);
 
@@ -41,7 +41,7 @@ export type $ExchangeRateλShape = $.typeutil.flatten<_std.$Object_8ce8c71ee4fa5
 type $ExchangeRate = $.ObjectType<"default::ExchangeRate", $ExchangeRateλShape, null, [
   ..._std.$Object_8ce8c71ee4fa5f73840c22d7eaa58588['__exclusives__'],
 ]>;
-const $ExchangeRate = $.makeType<$ExchangeRate>(_.spec, "9cb2965c-c9f8-11ef-baba-b5bc525e0134", _.syntax.literal);
+const $ExchangeRate = $.makeType<$ExchangeRate>(_.spec, "1e68b093-d4d4-11ef-8935-af669d7480d8", _.syntax.literal);
 
 const ExchangeRate: $.$expr_PathNode<$.TypeSet<$ExchangeRate, $.Cardinality.Many>, null> = _.syntax.$PathNode($.$toSet($ExchangeRate, $.Cardinality.Many), null);
 
@@ -51,12 +51,24 @@ export type $TransactionλShape = $.typeutil.flatten<_std.$Object_8ce8c71ee4fa5f
   "amount": $.PropertyDesc<_std.$float64, $.Cardinality.One, false, false, false, false>;
   "createdAt": $.PropertyDesc<_std.$datetime, $.Cardinality.One, false, false, false, true>;
   "hash": $.PropertyDesc<_std.$str, $.Cardinality.One, true, false, false, false>;
+  "to_address": $.PropertyDesc<_std.$str, $.Cardinality.AtMostOne, false, false, false, false>;
+  "block_hash": $.PropertyDesc<_std.$str, $.Cardinality.AtMostOne, false, false, false, false>;
+  "from_address": $.PropertyDesc<_std.$str, $.Cardinality.AtMostOne, false, false, false, false>;
+  "block_number": $.PropertyDesc<_std.$int64, $.Cardinality.AtMostOne, false, false, false, false>;
+  "block_timestamp": $.PropertyDesc<_std.$int64, $.Cardinality.AtMostOne, false, false, false, false>;
+  "gas": $.PropertyDesc<_std.$int64, $.Cardinality.AtMostOne, false, false, false, false>;
+  "gas_price": $.PropertyDesc<_std.$int64, $.Cardinality.AtMostOne, false, false, false, false>;
+  "gas_used": $.PropertyDesc<_std.$int64, $.Cardinality.AtMostOne, false, false, false, false>;
+  "input": $.PropertyDesc<_std.$str, $.Cardinality.AtMostOne, false, false, false, false>;
+  "transaction_fee": $.PropertyDesc<_std.$int64, $.Cardinality.AtMostOne, false, false, false, false>;
+  "transaction_index": $.PropertyDesc<_std.$int64, $.Cardinality.AtMostOne, false, false, false, false>;
+  "value": $.PropertyDesc<_std.$str, $.Cardinality.AtMostOne, false, false, false, false>;
 }>;
 type $Transaction = $.ObjectType<"default::Transaction", $TransactionλShape, null, [
   ..._std.$Object_8ce8c71ee4fa5f73840c22d7eaa58588['__exclusives__'],
   {hash: {__element__: _std.$str, __cardinality__: $.Cardinality.One | $.Cardinality.AtMostOne },},
 ]>;
-const $Transaction = $.makeType<$Transaction>(_.spec, "9cb64e14-c9f8-11ef-95f7-f53c6a0b4aac", _.syntax.literal);
+const $Transaction = $.makeType<$Transaction>(_.spec, "1e6e0865-d4d4-11ef-8063-b5252c333663", _.syntax.literal);
 
 const Transaction: $.$expr_PathNode<$.TypeSet<$Transaction, $.Cardinality.Many>, null> = _.syntax.$PathNode($.$toSet($Transaction, $.Cardinality.Many), null);
 
@@ -77,7 +89,7 @@ type $User = $.ObjectType<"default::User", $UserλShape, null, [
   {normalizedEmail: {__element__: _std.$str, __cardinality__: $.Cardinality.One | $.Cardinality.AtMostOne },},
   {email: {__element__: _std.$str, __cardinality__: $.Cardinality.One | $.Cardinality.AtMostOne },},
 ]>;
-const $User = $.makeType<$User>(_.spec, "9cb81726-c9f8-11ef-8922-9393de5d6a42", _.syntax.literal);
+const $User = $.makeType<$User>(_.spec, "1e709a9d-d4d4-11ef-805c-7b1474a3369b", _.syntax.literal);
 
 const User: $.$expr_PathNode<$.TypeSet<$User, $.Cardinality.Many>, null> = _.syntax.$PathNode($.$toSet($User, $.Cardinality.Many), null);
 
@@ -95,7 +107,7 @@ type $Wallet = $.ObjectType<"default::Wallet", $WalletλShape, null, [
   ..._std.$Object_8ce8c71ee4fa5f73840c22d7eaa58588['__exclusives__'],
   {address: {__element__: _std.$str, __cardinality__: $.Cardinality.One | $.Cardinality.AtMostOne },},
 ]>;
-const $Wallet = $.makeType<$Wallet>(_.spec, "9cb49e0c-c9f8-11ef-9683-355b3cef84c7", _.syntax.literal);
+const $Wallet = $.makeType<$Wallet>(_.spec, "1e6bc0d2-d4d4-11ef-aa4c-ebdcbd17bd7c", _.syntax.literal);
 
 const Wallet: $.$expr_PathNode<$.TypeSet<$Wallet, $.Cardinality.Many>, null> = _.syntax.$PathNode($.$toSet($Wallet, $.Cardinality.Many), null);
 

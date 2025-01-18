@@ -92,6 +92,18 @@ export namespace $default {
     "amount": number;
     "createdAt": Date;
     "hash": string;
+    "to_address"?: string | null;
+    "block_hash"?: string | null;
+    "from_address"?: string | null;
+    "block_number"?: number | null;
+    "block_timestamp"?: number | null;
+    "gas"?: number | null;
+    "gas_price"?: number | null;
+    "gas_used"?: number | null;
+    "input"?: string | null;
+    "transaction_fee"?: number | null;
+    "transaction_index"?: number | null;
+    "value"?: string | null;
   }
   export interface User extends std.$Object {
     "address"?: string | null;

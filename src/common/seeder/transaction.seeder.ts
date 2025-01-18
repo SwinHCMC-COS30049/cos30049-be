@@ -63,10 +63,11 @@ const seedTransaction = async () => {
   }
 
   const transactedAmount = randomNumber(0, sourceWallet.balance);
-
   const timestamp = new Date().getUTCMilliseconds();
 
   const transaction = e.insert(e.Transaction, {
+    from_address: sourceWallet.address,
+    to_address: destinationWallet.address,
     hash: generateTransactionHash(
       sourceWallet.currency.symbol,
       sourceWallet.address,
@@ -74,6 +75,16 @@ const seedTransaction = async () => {
       transactedAmount,
       timestamp,
     ),
+    value: String(transactedAmount),
+    input: "0x", // Default empty input
+    transaction_index: Math.floor(Math.random() * 100), // Random index
+    gas: 21000, // Standard ETH transfer gas
+    gas_used: 21000,
+    gas_price: Math.floor(Math.random() * 100000000000), // Random gas price
+    transaction_fee: Math.floor(Math.random() * 1000000000), // Random fee
+    block_number: Math.floor(Math.random() * 1000000), // Random block number
+    block_hash: "0x" + Array(64).fill(0).map(() => Math.floor(Math.random() * 16).toString(16)).join(''), // Random block hash
+    block_timestamp: Math.floor(Date.now() / 1000), // Current timestamp in seconds
     amount: transactedAmount,
     sourceWallet: e.select(e.Wallet, () => ({
       filter_single: { id: sourceWallet.id },

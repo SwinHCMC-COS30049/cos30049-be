@@ -55,15 +55,37 @@ module default {
   }
 
   type Transaction {
+    required property from_address -> str;
+    required property to_address -> str;
     required property hash -> str {
-      constraint exclusive;
+        constraint exclusive;  
     };
-    required property amount -> float64;  # amount in its currency
-    required property createdAt -> datetime {
-      default := datetime_current();
-    };
+    required property value -> str;
+    required property input -> str;
+    required property transaction_index -> int64;
+    required property gas -> int64;
+    required property gas_used -> int64;
+    required property gas_price -> int64;
+    required property transaction_fee -> int64;
+    required property block_number -> int64;
+    required property block_hash -> str;
+    required property block_timestamp -> int64;
 
-    required sourceWallet: Wallet;
-    required destinationWallet: Wallet;
-  }
+    # Add links to source and destination wallets
+    required link sourceWallet := (
+        SELECT Wallet 
+        FILTER .address = .from_address
+        LIMIT 1
+    );
+    required link destinationWallet := (
+        SELECT Wallet 
+        FILTER .address = .to_address
+        LIMIT 1
+    );
+
+    index on (.hash);
+    index on (.from_address);
+    index on (.to_address);
+    index on (.block_number);
+ }
 }

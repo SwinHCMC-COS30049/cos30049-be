@@ -1,19 +1,23 @@
-import { WalletDto } from '../wallet/wallet.dto';
 import { CurrencyDto } from '../currency/currency.dto';
+import { WalletDto } from '../wallet/wallet.dto';
 
 export class TransactionDto {
   id: string;
-
-  amount: number;
-
   hash: string;
-
+  amount: number;
+  input: string;
+  transactionIndex: number;
+  gas: number;
+  gasUsed: number;
+  gasPrice: number;
+  transactionFee: number;
+  blockNumber: number;
+  blockHash: string;
+  blockTimestamp: number;
   createdAt: Date;
 
-  baseWallet?: WalletDto;
-
+  sourceWallet?: WalletDto;
   destinationWallet?: WalletDto;
-
   currency?: CurrencyDto;
 }
 
