@@ -44,47 +44,49 @@
 //   process.exit(1);
 // });
 
-
-import { NestFactory } from '@nestjs/core';
-import { Logger } from '@nestjs/common';
-import { SeederModule } from './seeder.module';
-import { EdgedbSeederService } from './seeder.service';
-import { Neo4jSeederService } from './seeder-neo4j.service';
+import { Injectable, Logger } from '@nestjs/common';
 import e, { createClient } from '@dbschema/edgeql-js';
-
+import { seedUsers } from './user.seeder';
+import { seedCurrencies } from './currency.seeder';
+import { seedExchangeRates } from './exchange-rate.seeder';
+import { seedWallets } from './wallet.seeder';
+import { seedTransactions } from './transaction.seeder';
 
 export const client = createClient();
 
-async function bootstrap() {
-  const logger = new Logger('Seeder');
-  const app = await NestFactory.create(SeederModule, {
-    logger: ['error', 'warn', 'log', 'debug', 'verbose'], // Enable all log levels
-  });
+@Injectable()
+export class EdgedbSeederService {
+  private readonly logger = new Logger(EdgedbSeederService.name);
+  private readonly client = createClient();
 
-  const edgedbSeeder = app.get(EdgedbSeederService);
-  const neo4jSeeder = app.get(Neo4jSeederService);
+  async clearDatabase() {
+    this.logger.log('🧹 Clearing database...');
+    await e.delete(e.Transaction).run(this.client);
+    await e.delete(e.Wallet).run(this.client);
+    await e.delete(e.User).run(this.client);
+    await e.delete(e.ExchangeRate).run(this.client);
+    await e.delete(e.Currency).run(this.client);
+    this.logger.log('🧹 Database cleared!');
+  }
 
-  try {
-    logger.log('Starting seeding process...');
-    await Promise.all([
-      edgedbSeeder.seed(),
-      neo4jSeeder.seed()
-    ]);
-    logger.log('Seeding completed successfully');
-  } catch (error) {
-    logger.error('Seeding failed:', error);
-    if (error instanceof Error) {
-      logger.error(error.stack);
+  async seed() {
+    this.logger.log('EDGEDB Seeding');
+    this.logger.log('🌱 Starting seed...');
+    console.time('⏱️ Seed time');
+
+    try {
+      await this.clearDatabase();
+      await seedUsers();
+      await seedCurrencies();
+      await seedExchangeRates();
+      await seedWallets();
+      await seedTransactions();
+
+      console.timeEnd('⏱️ Seed time');
+      this.logger.log('✅ Seed completed!');
+    } catch (error) {
+      this.logger.error('❌ Seed failed:', error);
+      throw error;
     }
-    process.exit(1);
-  } finally {
-    logger.log('Closing application...');
-    await app.close();
-    logger.log('Application closed');
   }
 }
-
-bootstrap().catch((error) => {
-  console.error('Bootstrap failed:', error);
-  process.exit(1);
-});

@@ -1,7 +1,8 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { Neo4jModule } from 'src/modules/neo4j/neo4j.module';
-import { SeederService } from './seeder-neo4j.service';
+import { Neo4jSeederService } from './seeder-neo4j.service';
+import { EdgedbSeederService } from './seeder.service';
 import neo4jConfig from 'src/modules/neo4j/neo4j.config';
 
 @Module({
@@ -12,7 +13,7 @@ import neo4jConfig from 'src/modules/neo4j/neo4j.config';
     }),
     Neo4jModule.forRoot(),
   ],
-  providers: [SeederService],
-  exports: [SeederService],
+  providers: [EdgedbSeederService, Neo4jSeederService],
+  exports: [EdgedbSeederService, Neo4jSeederService],
 })
 export class SeederModule {}

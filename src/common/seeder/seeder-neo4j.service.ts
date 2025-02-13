@@ -7,7 +7,7 @@ import { seedCurrencies } from './currency-neo4j.seeder';
 import { seedUsers } from './user-neo4j.seeder';
 
 @Injectable()
-export class SeederService {
+export class Neo4jSeederService {
   constructor(private readonly neo4jService: Neo4jService) {}
 
   async seed() {
