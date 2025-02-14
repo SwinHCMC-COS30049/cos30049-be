@@ -8,12 +8,11 @@ export class Neo4jService implements OnApplicationShutdown {
   private readonly logger = new Logger(Neo4jService.name);
 
   constructor(private readonly configService: ConfigService) {
-    const scheme = this.configService.get<string>('neo4j.scheme') || 'neo4j';
-    const host = this.configService.get<string>('neo4j.host') || 'localhost';
-    const port = this.configService.get<number>('neo4j.port') || 7689;
-    const username = this.configService.get<string>('neo4j.username') || 'neo4j';
-    const password = this.configService.get<string>('neo4j.password') || '';
-    
+    const uri = this.configService.get<string>('neo4j.uri');
+    const username = this.configService.get<string>('neo4j.username');
+    const password = this.configService.get<string>('neo4j.password');
+    const database = this.configService.get<string>('neo4j.database') || 'neo4j';
+
     const config: Config = {
       maxTransactionRetryTime: 30000,
       maxConnectionPoolSize: 50,
@@ -27,11 +26,11 @@ export class Neo4jService implements OnApplicationShutdown {
   
     try {
       this.driver = neo4j.driver(
-        `${scheme}://${host}:${port}`,
-        neo4j.auth.basic(username, password),
+        uri ?? '',
+        neo4j.auth.basic(username ?? '', password),
         config
       );
-      this.logger.log(`Neo4j connection established to ${scheme}://${host}:${port}`);
+      this.logger.log(`Neo4j connection established to ${uri}`);
     } catch (error) {
       this.logger.error('Failed to create Neo4j driver:', error);
       throw error;
@@ -63,8 +62,6 @@ export class Neo4jService implements OnApplicationShutdown {
 
     try {
       const result = await session.run(query, parameters);
-      // Remove or change this log level to reduce verbosity
-      // this.logger.debug(`Read query executed: ${query}`);
       return result;
     } catch (error) {
       this.logger.error(`Error executing read query: ${query}`, error);
@@ -102,8 +99,6 @@ export class Neo4jService implements OnApplicationShutdown {
     });
     try {
       const result = await session.executeWrite(transactionWork);
-      // Remove or change this log level to reduce verbosity
-      // this.logger.debug('Transaction executed successfully');
       return result;
     } catch (error) {
       this.logger.error('Error executing transaction:', error);

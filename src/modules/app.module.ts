@@ -9,6 +9,8 @@ import { EdgeDBModule } from './edgedb/edgedb.module';
 import { AuthModule } from './auth/auth.module';
 import { WalletModule } from './wallet/wallet.module';
 import { TransactionModule } from './transaction/transaction.module';
+import { Neo4jModule } from 'src/modules/neo4j/neo4j.module';
+import neo4jConfig from 'src/modules/neo4j/neo4j.config';
 
 const FEATURE_MODULES = [
   UserModule,
@@ -33,6 +35,13 @@ const SHARED_MODULES = [
       useClass: ZodValidationPipe,
     },
   ],
-  imports: [...FEATURE_MODULES, ...SHARED_MODULES],
+  imports: [
+    ConfigModule.forRoot({
+      isGlobal: true,
+      load: [neo4jConfig],
+    }),
+    Neo4jModule.forRoot(),
+    ...FEATURE_MODULES, ...SHARED_MODULES
+  ],
 })
 export class AppModule {}

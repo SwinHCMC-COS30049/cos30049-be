@@ -1,4 +1,3 @@
-// Neo4j Constraints and Indexes Initializer
 import { Injectable, OnModuleInit, Logger } from '@nestjs/common';
 import { Neo4jService } from '../neo4j.service';
 
@@ -57,13 +56,23 @@ export class Neo4jConstraintsInitializer implements OnModuleInit {
 
       // Ensure required properties
       await this.neo4j.write(`
-        CREATE CONSTRAINT user_required_props IF NOT EXISTS
-        FOR (u:User) REQUIRE u.firstName IS NOT NULL AND u.lastName IS NOT NULL
+        CREATE CONSTRAINT user_firstName_required IF NOT EXISTS
+        FOR (u:User) REQUIRE u.firstName IS NOT NULL
       `);
 
       await this.neo4j.write(`
-        CREATE CONSTRAINT transaction_required_props IF NOT EXISTS
-        FOR (t:Transaction) REQUIRE t.amount IS NOT NULL AND t.timestamp IS NOT NULL
+        CREATE CONSTRAINT user_lastName_required IF NOT EXISTS
+        FOR (u:User) REQUIRE u.lastName IS NOT NULL
+      `);
+
+      await this.neo4j.write(`
+        CREATE CONSTRAINT transaction_amount_required IF NOT EXISTS
+        FOR (t:Transaction) REQUIRE t.amount IS NOT NULL
+      `);
+
+      await this.neo4j.write(`
+        CREATE CONSTRAINT transaction_timestamp_required IF NOT EXISTS
+        FOR (t:Transaction) REQUIRE t.timestamp IS NOT NULL
       `);
 
       this.logger.log('Neo4j constraints initialized successfully');
