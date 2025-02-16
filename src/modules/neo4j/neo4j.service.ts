@@ -1,6 +1,13 @@
 import { Injectable, OnApplicationShutdown, Logger } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
-import neo4j, { Driver, Session, QueryResult, ManagedTransaction, Config } from 'neo4j-driver';
+import neo4j, {
+  Driver,
+  Session,
+  QueryResult,
+  ManagedTransaction,
+  Config,
+} from 'neo4j-driver';
+import { Any } from 'src/common/types/lib';
 
 @Injectable()
 export class Neo4jService implements OnApplicationShutdown {
@@ -11,7 +18,8 @@ export class Neo4jService implements OnApplicationShutdown {
     const uri = this.configService.get<string>('neo4j.uri');
     const username = this.configService.get<string>('neo4j.username');
     const password = this.configService.get<string>('neo4j.password');
-    const database = this.configService.get<string>('neo4j.database') || 'neo4j';
+    // const database =
+    //   this.configService.get<string>('neo4j.database') || 'neo4j';
 
     const config: Config = {
       maxTransactionRetryTime: 30000,
@@ -21,14 +29,16 @@ export class Neo4jService implements OnApplicationShutdown {
     };
 
     if (!password) {
-      throw new Error('Neo4j password is not configured. Please check your environment variables.');
+      throw new Error(
+        'Neo4j password is not configured. Please check your environment variables.',
+      );
     }
-  
+
     try {
       this.driver = neo4j.driver(
         uri ?? '',
         neo4j.auth.basic(username ?? '', password),
-        config
+        config,
       );
       this.logger.log(`Neo4j connection established to ${uri}`);
     } catch (error) {
@@ -53,7 +63,7 @@ export class Neo4jService implements OnApplicationShutdown {
 
   async read(
     query: string,
-    parameters?: Record<string, any>
+    parameters?: Record<string, Any>,
   ): Promise<QueryResult> {
     const session: Session = this.driver.session({
       database: this.configService.get<string>('neo4j.database') || 'neo4j',
@@ -73,7 +83,7 @@ export class Neo4jService implements OnApplicationShutdown {
 
   async write(
     query: string,
-    parameters?: Record<string, any>
+    parameters?: Record<string, Any>,
   ): Promise<QueryResult> {
     const session: Session = this.driver.session({
       database: this.configService.get<string>('neo4j.database') || 'neo4j',
@@ -92,10 +102,10 @@ export class Neo4jService implements OnApplicationShutdown {
   }
 
   async executeTransaction(
-    transactionWork: (tx: ManagedTransaction) => Promise<any>
-  ): Promise<any> {
+    transactionWork: (tx: ManagedTransaction) => Promise<Any>,
+  ): Promise<Any> {
     const session = this.driver.session({
-      database: this.configService.get<string>('neo4j.database') || 'neo4j'
+      database: this.configService.get<string>('neo4j.database') || 'neo4j',
     });
     try {
       const result = await session.executeWrite(transactionWork);

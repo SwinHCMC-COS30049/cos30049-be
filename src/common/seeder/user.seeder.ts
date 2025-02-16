@@ -47,7 +47,6 @@
 //   console.log('👤 Users seeded!');
 // };
 
-
 import e from '@dbschema/edgeql-js';
 import { CreateUserInput } from 'src/modules/user/user.dto';
 import { faker } from '@faker-js/faker';
@@ -107,7 +106,8 @@ const seedUsersInNeo4j = async (neo4jService: Neo4jService, count: number) => {
     const user = await getDummyUser();
     const normalizedEmail = normalizeEmail(user.email) || user.email;
 
-    await neo4jService.write(`
+    await neo4jService.write(
+      `
       MERGE (u:User {normalizedEmail: $normalizedEmail})
       ON CREATE SET
         u.email = $email,
@@ -118,10 +118,12 @@ const seedUsersInNeo4j = async (neo4jService: Neo4jService, count: number) => {
         u.phone = $phone,
         u.profileImg = $profileImg,
         u.id = randomUUID()
-    `, {
-      ...user,
-      normalizedEmail
-    });
+    `,
+      {
+        ...user,
+        normalizedEmail,
+      },
+    );
   }
   console.log('👤 Users seeded into Neo4j!');
 };
@@ -129,7 +131,7 @@ const seedUsersInNeo4j = async (neo4jService: Neo4jService, count: number) => {
 // Combined seeder function
 export const seedUsers = async (
   neo4jService: Neo4jService,
-  count: number = 10
+  count: number = 10,
 ) => {
   // Seed users in both databases
   await seedUsersInEdgeDB(count);

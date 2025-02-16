@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { Neo4jService } from '../neo4j/neo4j.service';
 import { GetWalletTransactionsOuput, TransactionType } from './transaction.dto';
 import { PaginationMetadata } from 'src/common/pagination/pagination.dto';
+import { Any } from 'src/common/types/lib';
 
 @Injectable()
 export class TransactionService {
@@ -66,17 +67,17 @@ export class TransactionService {
       limit,
     });
 
-    const transactions = transactionsResult.records.map((record: any) => ({
-        ...record.get('transaction').properties,
-        sourceWallet: record.get('transaction.sourceWallet').properties,
-        destinationWallet: record.get('transaction.destinationWallet').properties,
+    const transactions = transactionsResult.records.map((record: Any) => ({
+      ...record.get('transaction').properties,
+      sourceWallet: record.get('transaction.sourceWallet').properties,
+      destinationWallet: record.get('transaction.destinationWallet').properties,
     }));
 
     const metadata = new PaginationMetadata({ page, limit, total });
 
     return {
-        transactions,
-        metadata,
+      transactions,
+      metadata,
     };
   }
 }

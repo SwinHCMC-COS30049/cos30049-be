@@ -8,9 +8,9 @@ import { ConfigService } from '@nestjs/config';
 import { Logger, LoggerErrorInterceptor } from 'nestjs-pino';
 import { patchNestJsSwagger } from 'nestjs-zod';
 import { NestExpressApplication } from '@nestjs/platform-express';
+import { Any } from './common/types/lib';
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-declare const module: any;
+declare const module: Any;
 
 function createSwagger(app: INestApplication) {
   const configService = app.get(ConfigService);
