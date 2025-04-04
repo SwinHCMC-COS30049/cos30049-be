@@ -1,0 +1,26 @@
+"Wallet statement"
+"Address count with BTC balance:";2
+"Starting balance 2022-11-01";0.00;BTC;0.00;USD
+"Ending balance 2022-11-07";691.12998651;BTC;14461894.97;USD
+"Total received";1382.25998651;BTC
+"Total sent";691.13;BTC
+"Total received from external wallets";691.13;BTC
+"Total sent to external wallets";0.00001349;BTC
+
+"Types legend"
+"External receiving";"An event that replenishes an address from your list, where the sending address is not an address from your list."
+"External spending";"An event that reflects a spend from an address on your list to an external address that is not an address on your list."
+"Inner fee";"Commission that was spent by the address from your list."
+Inner;"Event where the recipient address and the sender address are addresses from your list"
+
+
+"Start period";2022-11-01
+"End period";2022-11-07
+"Transactions involving the addresses:"
+"Tx number";Effect;Ticker;"Amount fiat (USD)";"Asset rate (USD)";Type;Date;"Public key";"Wallet address";"Third-party address";"Transaction hash"
+1;-0.13;BTC;-2663.44;20488.00;Inner;"2022-11-02 00:36:19";;bc1q2dequzmk5vk8nmmrata8nq4y0zgqn4vc0n2h8y;;6ff66fd113afeb88f6d47e3c0a91b00c9f73c55b0366ca47fc217e8f2c1e0e61
+2;-691.00;BTC;-14157208.00;20488.00;Inner;"2022-11-02 00:36:19";;bc1q2dequzmk5vk8nmmrata8nq4y0zgqn4vc0n2h8y;;6ff66fd113afeb88f6d47e3c0a91b00c9f73c55b0366ca47fc217e8f2c1e0e61
+3;691.12998651;BTC;14159871.16;20488.00;Inner;"2022-11-02 00:36:19";;bc1qw5g8lw4kzltpdcraehy2dt6dqda8080xd6vhl4kg4wwsypwerg9s3x6pvk;;6ff66fd113afeb88f6d47e3c0a91b00c9f73c55b0366ca47fc217e8f2c1e0e61
+4;0.00001349;BTC;0.28;20488.00;"Inner fee";"2022-11-02 00:36:19";;;the-void;6ff66fd113afeb88f6d47e3c0a91b00c9f73c55b0366ca47fc217e8f2c1e0e61
+5;0.13;BTC;2663.44;20488.00;"External receiving";"2022-11-02 00:09:45";;bc1q2dequzmk5vk8nmmrata8nq4y0zgqn4vc0n2h8y;;979385be5cf70e1c3fe52c7e71c9916bf36c4889113d254b21041da16f32d4cc
+6;691.00;BTC;14159274.09;20490.99;"External receiving";"2022-11-01 23:59:12";;bc1q2dequzmk5vk8nmmrata8nq4y0zgqn4vc0n2h8y;;b8423bb78f26be3d4c0a5dec70c46885c24307bf574f9c941ed37d73ae29f7a2
