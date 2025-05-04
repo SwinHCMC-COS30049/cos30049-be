@@ -9,7 +9,7 @@ import { EdgeDBModule } from './edgedb/edgedb.module';
 import { AuthModule } from './auth/auth.module';
 import { WalletModule } from './wallet/wallet.module';
 import { TransactionModule } from './transaction/transaction.module';
-import { Neo4jModule } from './neo4j/neo4j.module';
+// import { Neo4jModule } from './neo4j/neo4j.module';
 
 const FEATURE_MODULES = [
   UserModule,
@@ -17,7 +17,7 @@ const FEATURE_MODULES = [
   AuthModule,
   WalletModule,
   TransactionModule,
-  Neo4jModule,
+  // Neo4jModule,
 ];
 const SHARED_MODULES = [
   ConfigModule.forRoot({
