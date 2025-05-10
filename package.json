@@ -16,7 +16,8 @@
     "db:generate": "npx @edgedb/generate edgeql-js && npx @edgedb/generate interfaces",
     "db:edgedb-seed": "ts-node -r tsconfig-paths/register src/common/seeder/seeder.ts",
     "db:csv-seed": "ts-node -r tsconfig-paths/register src/common/seeder/csv-data.seeder.ts && pnpm run db:neo4j-seed",
-    "db:neo4j-seed": "ts-node -r tsconfig-paths/register src/common/seeder/neo4j.seeder.ts"
+    "db:neo4j-seed": "ts-node -r tsconfig-paths/register src/common/seeder/neo4j.seeder.ts",
+    "db:deribit-seed": "ts-node -r tsconfig-paths/register src/common/seeder/deribit.seeder.ts"
   },
   "dependencies": {
     "@nestjs/axios": "^3.1.3",
